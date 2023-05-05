@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Shelters</title>
+    <link rel="stylesheet" href="/shelters.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,300&display=swap" rel="stylesheet">
+</head>
+<body>
+<h1>Welcome to Pet Shelter</h1>
+<h2>Here's our list of current shelters</h2>
+
+<div id="centerdiv">
+    <ul>
+        <li id="tables" th:each="shelter : ${shelters}">
+            <a th:href="@{'/shelters/' + ${shelter.id}}" th:text="${shelter.name}"></a>
+        </li>
+    </ul>
+</div>
+<h3 th:if="${shelters.size} == 0">No shelters yet!</h3>
+<br/>
+<br/>
+<div>
+    <h4>Create New Shelter</h4>
+    <form action="/shelters" method="post">
+        <label for="name">Shelter Name:</label>
+        <input type="text" id="name" name="name"><br/><br/>
+        <input id= "submit" type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>

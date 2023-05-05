@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelter Stats</title>
+    <link rel="stylesheet" href="/specificShelter.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,300&display=swap" rel="stylesheet">
+    <script th:src="@{'/shelters/' + ${shelter.id} + '/specificShelter.js'}"></script>
+</head>
+
+<body>
+<h1>Welcome to the <span th:text="${shelter.name}"></span> pet shelter!!</h1>
+
+<div>
+    <h2 th:if="${pets.size} == 0">No pets yet!</h2>
+
+</div>
+<table th:if="${pets.size} >= 1" border="1">
+    <thead>
+    <caption class="caption">
+        Organic Dogs
+    </caption>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Hunger Level</th>
+        <th>Actions</th>
+        <th>Adopt</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${pet.type.name() == 'ORGANIC_DOG'}" th:each="pet : ${pets}">
+        <td th:text="${pet.id}"></td>
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.hunger}"></td>
+        <td>
+            <button class="feed" th:onclick="feed([[${pet.id}]]), refreshPage()">
+                Feed
+            </button>
+        </td>
+        <td>
+            <button class="adopt" th:onclick="adopt([[${pet.id}]]), refreshPage()">
+                Adopt
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div>
+</div>
+<br><br><br>
+<table th:if="${pets.size} >= 1" border="1">
+    <thead>
+    <caption class="caption">
+        Organic Cats
+    </caption>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Hunger Level</th>
+        <th>Actions</th>
+        <th>Adopt</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${pet.type.name() == 'ORGANIC_CAT'}" th:each="pet : ${pets}">
+        <td th:text="${pet.id}"></td>
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.hunger}"></td>
+        <td>
+            <button class="feed" th:onclick="feed([[${pet.id}]]), refreshPage()">
+                Feed
+            </button>
+        </td>
+        <td>
+            <button class="adopt" th:onclick="adoptOrganicCat([[${pet.id}]]), refreshPage()">
+                Adopt
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div>
+</div>
+<br><br><br>
+<table th:if="${pets.size} >= 1" border="1">
+    <thead>
+    <caption class="caption">
+        Robotic Dogs
+    </caption>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Rust Level</th>
+        <th>Actions</th>
+        <th>Adopt</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${pet.type.name() == 'ROBOTIC_DOG'}" th:each="pet : ${pets}">
+        <td th:text="${pet.id}"></td>
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.oil}"></td>
+        <td>
+            <button class="oil" th:onclick="oil([[${pet.id}]]), refreshPage()">
+                Oil
+            </button>
+        </td>
+        <td>
+            <button class="adoptR" th:onclick="adoptRoboticDog([[${pet.id}]]), refreshPage()">
+                Adopt
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div>
+</div>
+<br><br><br>
+<table th:if="${pets.size} >= 1" border="1">
+    <thead>
+    <caption class="caption">
+        Robotic Cats
+    </caption>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Rust Level</th>
+        <th>Actions</th>
+        <th>Adopt</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${pet.type.name() == 'ROBOTIC_CAT'}" th:each="pet : ${pets}">
+        <td th:text="${pet.id}"></td>
+        <td th:text="${pet.name}"></td>
+        <td th:text="${pet.oil}"></td>
+        <td>
+            <button class="oil" th:onclick="oil([[${pet.id}]]), refreshPage()">
+                Oil
+            </button>
+        </td>
+        <td>
+            <button class="adoptR" th:onclick="adoptRoboticCat([[${pet.id}]]), refreshPage()">
+                Adopt
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br/><br/><br/><br/><br/><br/>
+<table class="globalActions" border="1">
+    <tr>
+        <th>Global Actions</th>
+    </tr>
+
+    <tr>
+        <td>
+            <button class="globalFeed" th:onclick="feedAllOrganicPets([[${pets}]]), refreshPage()">Feed All Organic Pets
+            </button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button class="globalOil" th:onclick="oilAllRoboticPets([[${pets}]]), refreshPage()">Oil All Robotic Pets
+            </button>
+        </td>
+    </tr>
+</table>
+<div>
+    <form id="OrganicDog" onsubmit="return validateForm()"
+          th:action="@{'/shelters/' + ${shelter.id} + '/organicDog'}" method="post" required>
+        <label for="name">Add an Organic Dog:</label>
+        <input type="text" id="name" name="name"><br>
+        <input class="button" type="submit" value="Submit">
+    </form>
+</div>
+<div>
+    <form id="OrganicCat" onsubmit="return validateForm()"
+          th:action="@{'/shelters/' + ${shelter.id} + '/organicCat'}" method="post" required>
+        <label for="name">Add an Organic Cat:</label>
+        <input type="text" id="nameOC" name="name"><br>
+        <input class="button" type="submit" value="Submit">
+    </form>
+</div>
+<div>
+    <form id="RoboticDog" onsubmit="return validateForm()"
+          th:action="@{'/shelters/' + ${shelter.id} + '/roboticDog'}" method="post" required>
+        <label for="name">Add a Robotic Dog:</label>
+        <input type="text" id="nameRD" name="name"><br>
+        <input class="button" type="submit" value="Submit">
+    </form>
+</div>
+<div>
+    <form id="RoboticCat" onsubmit="return validateForm()"
+          th:action="@{'/shelters/' + ${shelter.id} + '/roboticCat'}" method="post" required>
+        <label for="name">Add a Robotic Cat:</label>
+        <input type="text" id="nameRC" name="name"><br>
+        <input class="button" type="submit" value="Submit">
+    </form>
+</div>
+<div id="clock">
+    <span id="seconds"></span>
+</div>
+<a href="/shelters">
+    <button class="backToShelter">Back to shelter selection</button>
+</a>
+
+
+</body>
+</html>
